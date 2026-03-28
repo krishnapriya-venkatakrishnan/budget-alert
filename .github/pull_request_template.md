@@ -1,4 +1,4 @@
-## What changed
+# What changed
 
 <!-- Brief description of the change -->
 

@@ -11,9 +11,19 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
+    # Security updates always create PRs regardless of these ignores.
+    # Only patch + minor bumps are auto-opened for the packages below;
+    # major bumps for breaking packages require a manual upgrade PR.
     ignore:
-      # Major version bumps require manual review
-      - dependency-name: "*"
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@supabase/supabase-js"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "openai"
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
