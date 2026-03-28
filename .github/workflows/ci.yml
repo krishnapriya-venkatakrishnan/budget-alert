@@ -72,9 +72,8 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
-      - name: npm audit — dependency security
-        run: npm audit --audit-level=high
-        continue-on-error: false
+      - name: pnpm audit — dependency security
+        run: pnpm audit --audit-level=high
 
       - name: gitleaks — secret scan
         uses: gitleaks/gitleaks-action@v2
