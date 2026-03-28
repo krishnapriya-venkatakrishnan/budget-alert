@@ -44,7 +44,16 @@ Apply these patterns upfront in future PRs to avoid repeat flags.
 ## 6. ESM — avoid `import.meta.url` in Next.js config
 
 **Finding:** `import.meta.url` in `next.config.ts` caused Next.js to emit ESM syntax in the compiled config, breaking the build with `exports is not defined`.
-**Fix:** Use `process.cwd()` instead of `path.resolve(__dirname)` in `next.config.ts`. Never use `import.meta.url` in Next.js config files.
+**Fix:** Use `process.cwd()` instead of `import.meta.url` or `path.resolve(__dirname)` in `next.config.ts`. Next.js always loads the config from the project root, so `process.cwd()` resolves to the same directory as the config file at runtime — making it a safe and correct replacement in this specific context.
+
+**Important caveat:** `process.cwd()` is **not** universally equivalent to `__dirname`. In any other module context (e.g. a utility file deep in `lib/`), `process.cwd()` returns the project root, not the file's directory. Only use it in `next.config.ts` where the two happen to coincide.
+
+**Pattern to use in Next.js config:**
+
+```ts
+// path.resolve(process.cwd(), 'some/subdir') — safe in next.config.ts
+// Never: path.resolve(__dirname, ...) or import.meta.url in Next.js config
+```
 
 ---
 
