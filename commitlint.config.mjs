@@ -1,5 +1,5 @@
 /** @type {import('@commitlint/types').UserConfig} */
-export default {
+const config = {
   extends: ["@commitlint/config-conventional"],
   rules: {
     // Enforce the types used in this project
@@ -30,3 +30,5 @@ export default {
     "body-max-line-length": [2, "always", 100],
   },
 };
+
+export default config;

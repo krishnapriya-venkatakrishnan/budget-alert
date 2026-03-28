@@ -176,7 +176,7 @@ Every push triggers:
 1. `tsc --noEmit` — TypeScript check
 2. `eslint .` — lint
 3. `vitest run` — unit + integration tests
-4. `npm audit` — dependency security
+4. `pnpm audit` — dependency security
 5. `gitleaks detect` — secret scan
 6. `next build` — production build check
 
@@ -194,7 +194,7 @@ pnpm test:e2e       # Playwright E2E tests
 npx tsc --noEmit    # type check
 npx eslint .        # lint
 gitleaks detect     # scan for leaked secrets
-npm audit           # check dependency vulnerabilities
+pnpm audit          # check dependency vulnerabilities
 ```
 
 ---
