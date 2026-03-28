@@ -1,0 +1,38 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Stockholm"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+    # Security updates always create PRs regardless of these ignores.
+    # Only patch + minor bumps are auto-opened for the packages below;
+    # major bumps for breaking packages require a manual upgrade PR.
+    ignore:
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@supabase/supabase-js"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "openai"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Stockholm"
+    labels:
+      - "dependencies"
+      - "github-actions"
