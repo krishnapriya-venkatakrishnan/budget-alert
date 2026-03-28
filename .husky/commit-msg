@@ -1,0 +1,4 @@
+#!/bin/sh
+# Validates commit message format against commitlint.config.js
+
+npx --no -- commitlint --edit "$1"

@@ -1,0 +1,76 @@
+language: en-US
+
+reviews:
+  # Auto-review every PR — no manual trigger needed
+  auto_review:
+    enabled: true
+    drafts: false
+
+  # Request changes (not just comments) when high-severity issues are found
+  request_changes_workflow: true
+
+  # What CodeRabbit focuses on
+  profile: assertive
+
+  # Summarise what changed in plain English at the top of every review
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  path_instructions:
+    # API routes — enforce auth check and response shape
+    - path: "app/api/**"
+      instructions: |
+        Every route handler MUST call `supabase.auth.getUser()` before any data access and return 401 if the session is invalid.
+        All responses must follow the shape `{ data, error }`.
+        Flag any route that touches the database without first verifying the session.
+        Flag any use of SUPABASE_SERVICE_ROLE_KEY outside of server-only files.
+
+    # Supabase client — enforce server vs client split
+    - path: "lib/supabase/**"
+      instructions: |
+        `client.ts` must only use NEXT_PUBLIC_ variables.
+        `server.ts` is the only file allowed to reference SUPABASE_SERVICE_ROLE_KEY.
+        Flag any import of the server client from a file inside `components/` or `app/(dashboard)/` that is not a Server Component or API route.
+
+    # Environment variable discipline
+    - path: "**/*.ts"
+      instructions: |
+        Flag any occurrence of NEXT_PUBLIC_OPENAI_API_KEY or NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY — these must never be NEXT_PUBLIC_.
+        Flag any hardcoded API keys, tokens, or secrets (patterns like sk-, eyJ, Bearer followed by a long string).
+
+    - path: "**/*.tsx"
+      instructions: |
+        No dangerouslySetInnerHTML anywhere — flag every occurrence.
+        Flag any use of process.env.OPENAI_API_KEY or process.env.SUPABASE_SERVICE_ROLE_KEY in a Client Component (file with 'use client' directive).
+
+    # CSV parsing — must stay server-side
+    - path: "lib/csv.ts"
+      instructions: |
+        CSV parsing with papaparse must only happen server-side.
+        Flag any import of this file from a Client Component.
+        Flag any use of eval() or Function() near parsed CSV data.
+
+    # AI categorisation
+    - path: "lib/openai.ts"
+      instructions: |
+        OpenAI client must only be instantiated server-side.
+        Confirm batch size stays at 20 transactions per call.
+        Flag any place where raw transaction descriptions are logged (PII risk).
+
+    # Tests
+    - path: "**/*.test.ts"
+      instructions: |
+        Integration tests must not mock the Supabase database — flag any jest.mock or vi.mock of the Supabase client in integration test files.
+        Unit tests may mock freely.
+
+    # GitHub Actions
+    - path: ".github/workflows/**"
+      instructions: |
+        All secrets must be referenced as ${{ secrets.NAME }} — flag any hardcoded values.
+        Flag any step that runs curl | bash or wget | sh.
+        Confirm the pipeline includes: tsc, eslint, vitest, npm audit, gitleaks, next build.
+
+chat:
+  auto_reply: true
