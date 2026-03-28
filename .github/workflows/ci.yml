@@ -7,10 +7,28 @@ on:
     branches: [main]
 
 jobs:
+  check-scaffold:
+    name: Check project is scaffolded
+    runs-on: ubuntu-latest
+    outputs:
+      scaffolded: ${{ steps.check.outputs.scaffolded }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        run: |
+          if [ -f "package.json" ]; then
+            echo "scaffolded=true" >> $GITHUB_OUTPUT
+          else
+            echo "scaffolded=false" >> $GITHUB_OUTPUT
+            echo "⚠️ No package.json found — skipping CI until project is scaffolded."
+          fi
+
   ci:
     name: Type check, lint, test, build
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    needs: check-scaffold
+    if: needs.check-scaffold.outputs.scaffolded == 'true'
 
     steps:
       - name: Checkout
@@ -58,7 +76,6 @@ jobs:
 
       - name: npm audit — dependency security
         run: npm audit --audit-level=high
-        # Warn only — do not fail CI on moderate advisories in dev deps
         continue-on-error: false
 
       - name: gitleaks — secret scan
