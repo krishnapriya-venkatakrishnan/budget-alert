@@ -14,7 +14,7 @@ Documents all external service configuration for the Personal Finance Dashboard 
 | ------------------------------- | ----------------------------------------------------------- |
 | `NEXT_PUBLIC_SUPABASE_URL`      | Supabase project URL — used in CI vitest and build steps    |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key — used in CI vitest and build steps       |
-| `GITLEAKS_LICENSE`              | Gitleaks org-level scan licence (optional for public repos) |
+| `GITLEAKS_LICENSE`              | Gitleaks org-level scan license (optional for public repos) |
 
 ### Dependabot
 
