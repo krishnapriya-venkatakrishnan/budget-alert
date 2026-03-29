@@ -66,6 +66,7 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
             variant="ghost"
             size="icon"
             className="lg:hidden"
+            aria-label="Close sidebar"
             onClick={onClose}
           >
             <X className="h-4 w-4" />
