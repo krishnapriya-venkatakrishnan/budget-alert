@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   TrendingUp,
   Bell,
@@ -20,6 +20,12 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlErrorCode = searchParams.get("error");
+  const urlError =
+    urlErrorCode === "auth_callback_failed"
+      ? "Sign in failed. Please try again."
+      : urlErrorCode;
   const [showSignInPassword, setShowSignInPassword] = useState(false);
   const [showSignUpPassword, setShowSignUpPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -160,9 +166,9 @@ export default function LoginPage() {
             <CardTitle className="text-2xl">Welcome</CardTitle>
           </CardHeader>
           <CardContent>
-            {error && (
+            {(urlError ?? error) && (
               <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                {error}
+                {urlError ?? error}
               </p>
             )}
             {successMessage && (
