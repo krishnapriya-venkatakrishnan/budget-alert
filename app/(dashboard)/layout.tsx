@@ -24,8 +24,12 @@ export default function DashboardLayout({
   const router = useRouter();
 
   async function handleSignOut() {
-    await fetch("/api/auth/signout", { method: "POST" });
-    router.push("/login");
+    const response = await fetch("/api/auth/signout", { method: "POST" });
+    if (response.ok) {
+      router.push("/login");
+    } else {
+      console.error("Sign out failed", await response.json().catch(() => null));
+    }
   }
 
   return (
@@ -39,6 +43,7 @@ export default function DashboardLayout({
             variant="ghost"
             size="icon"
             className="lg:hidden"
+            aria-label="Open sidebar"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-5 w-5" />
@@ -48,7 +53,12 @@ export default function DashboardLayout({
             <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full"
+                  aria-label="User menu"
+                >
                   <Avatar className="h-8 w-8">
                     <AvatarFallback>
                       <User className="h-4 w-4" />

@@ -17,9 +17,12 @@ export async function createClient() {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options),
             );
-          } catch {
+          } catch (e) {
             // setAll called from a Server Component — cookies cannot be set.
             // Middleware handles session refresh instead.
+            if (process.env.NODE_ENV !== "production") {
+              console.debug("[supabase/server] cookie setAll skipped:", e);
+            }
           }
         },
       },
