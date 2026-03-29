@@ -20,7 +20,8 @@ import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showSignInPassword, setShowSignInPassword] = useState(false);
+  const [showSignUpPassword, setShowSignUpPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -205,21 +206,21 @@ export default function LoginPage() {
                       <Input
                         id="signin-password"
                         name="password"
-                        type={showPassword ? "text" : "password"}
+                        type={showSignInPassword ? "text" : "password"}
                         placeholder="••••••••"
                         required
                         autoComplete="current-password"
                       />
                       <button
                         type="button"
-                        onClick={() => setShowPassword((v) => !v)}
+                        onClick={() => setShowSignInPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                         aria-label={
-                          showPassword ? "Hide password" : "Show password"
+                          showSignInPassword ? "Hide password" : "Show password"
                         }
-                        aria-pressed={showPassword}
+                        aria-pressed={showSignInPassword}
                       >
-                        {showPassword ? (
+                        {showSignInPassword ? (
                           <EyeOff className="h-4 w-4" />
                         ) : (
                           <Eye className="h-4 w-4" />
@@ -265,7 +266,7 @@ export default function LoginPage() {
                       <Input
                         id="signup-password"
                         name="password"
-                        type={showPassword ? "text" : "password"}
+                        type={showSignUpPassword ? "text" : "password"}
                         placeholder="••••••••"
                         required
                         autoComplete="new-password"
@@ -273,14 +274,14 @@ export default function LoginPage() {
                       />
                       <button
                         type="button"
-                        onClick={() => setShowPassword((v) => !v)}
+                        onClick={() => setShowSignUpPassword((v) => !v)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                         aria-label={
-                          showPassword ? "Hide password" : "Show password"
+                          showSignUpPassword ? "Hide password" : "Show password"
                         }
-                        aria-pressed={showPassword}
+                        aria-pressed={showSignUpPassword}
                       >
-                        {showPassword ? (
+                        {showSignUpPassword ? (
                           <EyeOff className="h-4 w-4" />
                         ) : (
                           <Eye className="h-4 w-4" />
