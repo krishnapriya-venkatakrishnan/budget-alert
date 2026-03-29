@@ -82,12 +82,14 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
               </p>
               <ul className="space-y-1">
                 {links.map(({ href, label, icon: Icon }) => {
-                  const active = pathname === href;
+                  const active =
+                    pathname === href || pathname.startsWith(href + "/");
                   return (
                     <li key={href}>
                       <Link
                         href={href}
                         onClick={onClose}
+                        aria-current={active ? "page" : undefined}
                         className={cn(
                           "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                           active
