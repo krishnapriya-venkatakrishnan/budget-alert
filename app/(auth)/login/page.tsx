@@ -166,9 +166,9 @@ function LoginContent() {
             <CardTitle className="text-2xl">Welcome</CardTitle>
           </CardHeader>
           <CardContent>
-            {(urlError ?? error) && (
+            {(error ?? urlError) && (
               <p className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                {urlError ?? error}
+                {error ?? urlError}
               </p>
             )}
             {successMessage && (
